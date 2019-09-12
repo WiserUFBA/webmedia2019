@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>br.ufba.dcc.wiser.iot_reactive</groupId>
+    <artifactId>iot-reactive-application</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+   
+
+<properties>
+    <vertx.version>3.8.0</vertx.version>
+    <fabric8-vertx-maven-plugin.version>1.0.13</fabric8-vertx-maven-plugin.version>
+    
+    <vertx.verticle>controller.ReactiveController</vertx.verticle>
+
+     <edgent.runtime.platform/>   <!-- set by -Pplatform-* -->
+     <edgent.runtime.groupId>org.apache.edgent${edgent.runtime.platform}</edgent.runtime.groupId>
+     <edgent.runtime.version>1.2.0</edgent.runtime.version>
+
+     
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+
+
+ <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-dependencies</artifactId>
+        <version>${vertx.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+     <version>3.8.0</version>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20190722</version>
+</dependency>
+
+    
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.5</version>
+</dependency>
+
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-kafka-client</artifactId>
+ <version>3.8.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/io.vertx/vertx-mqtt -->
+<dependency>
+    <groupId>io.vertx</groupId>
+    <artifactId>vertx-mqtt</artifactId>
+    <version>3.8.0</version>
+</dependency>
+
+
+ <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-connectors-kafka</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+</dependency>
+
+
+ <!-- declare the Edgent provider(s) being used -->
+        <dependency>
+            <groupId>${edgent.runtime.groupId}</groupId>
+            <artifactId>edgent-providers-direct</artifactId>
+            <version>${edgent.runtime.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-connectors-mqtt</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-api-topology</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+              
+        <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-connectors-iot</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+                   
+        <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-api-graph</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+               
+        <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-spi-graph</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.edgent</groupId>
+            <artifactId>edgent-spi-topology</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        
+        
+        
+
+<!-- https://mvnrepository.com/artifact/org.apache.edgent/edgent-api-topology -->
+<dependency>
+    <groupId>org.apache.edgent</groupId>
+    <artifactId>edgent-api-topology</artifactId>
+    <version>1.2.0</version>
+</dependency>
+
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-infinispan</artifactId>
+      <version>3.8.1</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-rx-java</artifactId>
+      <version>3.8.0</version>
+    </dependency>
+    
+ <dependency>
+   <groupId>io.vertx</groupId>
+   <artifactId>vertx-mqtt</artifactId>
+   <version>3.8.0</version>
+</dependency>
+    
+<dependency>
+<groupId>io.vertx</groupId>
+<artifactId>vertx-service-discovery</artifactId>
+<version>3.8.0</version>
+</dependency>
+ </dependencies>
+  
+ <build>
+    <plugins>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>vertx-maven-plugin</artifactId>
+        <version>${fabric8-vertx-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>vmp</id>
+            <goals>
+              <goal>initialize</goal>
+              <goal>package</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <redeploy>true</redeploy>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

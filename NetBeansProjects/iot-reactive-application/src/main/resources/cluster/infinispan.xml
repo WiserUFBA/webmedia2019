@@ -1,0 +1,6 @@
+<infinispan>
+  <jgroups>
+     <stack-file name="external-file" path="jgroups.xml"/>
+  </jgroups>
+  
+</infinispan>
