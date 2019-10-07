@@ -1,7 +1,0 @@
-<infinispan>
-  <jgroups>
-     <stack-file name="external-file" path="jgroups.xml"/>
-  </jgroups>
-     <cache-container name="SampleCacheManager" statistics="true"  default-cache="the-default-cache" shutdown-hook="DEFAULT">
-
-</infinispan>

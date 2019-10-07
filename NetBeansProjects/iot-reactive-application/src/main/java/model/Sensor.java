@@ -68,62 +68,24 @@ public class Sensor extends AbstractVerticle {
     private int throughputSensor;
     private ProducerCreatorKafka producerCreatorKafka;
 
-    
-      @Override
+    @Override
     public void start() {
-        
+
     }
-    
+
     public Sensor(MqttClientOptions mqttOptions,
             String Sensorid, Device device, Path pathLog) {
 
-      
         this.Sensorid = Sensorid;
         this.isInitialized = true;
         this.device = device;
         this.pathLog = pathLog;
         //    
 
-      
         this.qos = 0;
 
-//        try{
-//            Path dir;
-//            if(Files.isDirectory(pathLog)){
-//               dir = Paths.get(pathLog.toUri());
-//            }else{
-//               dir = Files.createDirectory(pathLog);
-//            }   
-//            this.newFilePath = dir.resolve("Log-" + this.device.getDeviceId() + "-" + this.Sensorid + "-" + LocalDateTime.now().toString() + ".txt");
-//          
-//            System.out.println("File " + newFilePath.toString());
-//            
-////            Thread.currentThread().setContextClassLoader(null);
-////            this.producerCreatorKafka = new ProducerCreatorKafka();
-////            this.producerKafka = this.producerCreatorKafka.createProducer();
-////           
-////            
-////            if(this.producerKafka == null){
-////                System.out.println("Error starting Kafka Stream");
-////                throw new ExceptionInInitializerError("Error starting Kafka Stream");
-////            }
-//          
-//            
-//        }catch(IOException e){
-//            printError(e);
-//        }catch(Exception e) {
-//            printError(e);
-//        } 
-        //this.topicKafka = "dev" + "."  + this.fotDeviceStream.getDeviceId() + "." + this.Sensorid;
-        // this.topicKafka = "dev" + "." + this.fotDeviceStream.getGatewayID() + "." + this.fotDeviceStream.getDeviceId() + "." + this.Sensorid;
-        // System.out.println("Kafka topic: "+this.topicKafka);
-        //sendTatuFlow();
-        //initGetSensorData();
-        //  cusumConceptDriftStream();
-        //init();
         sendFlowRequest();
     }
-
 
     public void sendFlowRequest() {
 
@@ -139,31 +101,16 @@ public class Sensor extends AbstractVerticle {
     }
 
     private void publishTATUMessage(String msg, String topicName) {
-    MqttClientOptions mqttOptions = new MqttClientOptions();
-    mqttOptions.setLocalAddress("localhost");
-    
-    
+     
         Buffer buffer = Buffer.buffer(msg.getBytes());
 
         String topic = TATUWrapper.topicBase + topicName;
-        
+
         try {
             this.publish = MqttClientUtil.getMqttClientUtil();
 
-        //    this.publish.connect(1883, "localhost", s -> {
-
             publish.publish(topic, buffer, MqttQoS.AT_MOST_ONCE, false, false);
 
-//         subscriber.publishHandler(s1 -> {
-//                System.out.println("There are new message in topic: " + s1.topicName());
-//                System.out.println("Content(as string) of the message: " + s1.payload().toString());
-//                System.out.println("QoS: " + s1.qosLevel());
-//            })
-//                    .subscribe(topic, 0);
-                // subscriber.publish(topic, buffer, MqttQoS.AT_MOST_ONCE, false, false);
-// this.mqttClient.disconnect();
-          //  });
-        
         } catch (Exception e) {
             e.printStackTrace();
         }

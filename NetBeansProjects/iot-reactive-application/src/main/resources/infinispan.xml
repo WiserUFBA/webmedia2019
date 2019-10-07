@@ -3,8 +3,11 @@
      <stack-file name="external-file" path="jgroups.xml"/>
   </jgroups>
    <cache-container name="udp-cache-container" default-cache="the-default-cache">
-      <transport/>
-      <distributed-cache name="the-default-cache" l1-lifespan="30000" owners="2" mode="SYNC" />
+      <transport />
+
+      <distributed-cache name="the-default-cache" l1-lifespan="30000" owners="3" mode="SYNC" />
+
+ 
    </cache-container>
 	
 
