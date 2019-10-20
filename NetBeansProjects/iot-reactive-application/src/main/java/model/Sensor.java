@@ -91,9 +91,10 @@ public class Sensor extends AbstractVerticle {
 
         String flowRequest;
         if (this.getCollectionTime() <= 0) {
-            flowRequest = TATUWrapper.getTATUFlowValue(this.Sensorid, getDefaultCollectionTime(), getDefaultPublishingTime());
+            
+            flowRequest = TATUWrapper.getTATUFlowValue(this.Sensorid, 10000, 20000);
         } else {
-            flowRequest = TATUWrapper.getTATUFlowValue(this.Sensorid, this.getCollectionTime(), this.getPublishingTime());
+             flowRequest = TATUWrapper.getTATUFlowValue(this.Sensorid, this.getCollectionTime(), this.getPublishingTime());
         }
         System.out.println("[topic: " + getDevice().getDeviceId() + "] " + flowRequest);
 

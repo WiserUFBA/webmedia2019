@@ -29,6 +29,7 @@ import org.apache.edgent.topology.Topology;
 
 import tatu.TATUWrapper;
 import util.MqttClientUtil;
+import util.Util;
 
 /**
  *
@@ -50,54 +51,49 @@ public class ReactiveController extends AbstractVerticle {
     private MqttClient mqttClient;
     private MqttClientOptions mqttOptions;
 
-   
     @Override
     public void start() {
 
         try {
             this.mqttOptions = new MqttClientOptions();
-            this.mqttOptions.setLocalAddress("localhost");
             this.listDevices = new ArrayList<>();
-            jsonDevices = "[{id:ufbaino01, latitude:53.290411, longitude:-9.074406, sensors:[{id:temperatureSensor, type:Thermometer, collection_time:30000, publishing_time: 60000}, {id:humiditySensor, type:HumiditySensor, collection_time:30000, publishing_time: 60000}]},{id:ufbaino02, latitude:53.2865012, longitude:-9.0712183,sensors:[{id:temperatureSensor, type:Thermometer, collection_time:30000, publishing_time: 60000}, {id:currentSensor01, type:EnergyMeter, collection_time:1000, publishing_time: 60000}]}, {id:ufbaino03, latitude:53.2865015, longitude:-9.0712185,sensors:[{id:temperatureSensor, type:Thermometer, collection_time:30000, publishing_time: 60000}, {id:currentSensor01, type:HumiditySensor, collection_time:1000, publishing_time: 60000}]}]";
-
+            jsonDevices = Util.DEVICES;
+            
             System.out.println("subscribing in topics:");
 
             loadDevices();
 
-            this.mqttClient = MqttClientUtil.getMqttClientUtil(); 
-
-            this.mqttClient.connect(1883, mqttOptions.getLocalAddress(), s -> {
-
+            this.mqttClient = MqttClientUtil.getMqttClientUtil();
+              
+          
+        
                 listDevices.stream().map((device) -> {
-                    System.out.println("aquui 0" + TATUWrapper.topicBase + device.getDeviceId() + "/#");
                     return device;
                 }).forEachOrdered((device) -> {
-                    this.mqttClient.subscribe("aquui 1 "  + TATUWrapper.topicBase + device.getDeviceId() + "/#", 1);
+                    this.mqttClient.subscribe(TATUWrapper.topicBase + device.getDeviceId() , 1);
+                    System.out.println(TATUWrapper.topicBase + device.getDeviceId() );
                 });
+           
+           // vertx.setPeriodic(Util.PERIODO, id -> {
+                this.mqttClient.publishHandler(hndlr -> {
+                    System.out.println("There are new message in topic: " + hndlr.topicName());
+                    System.out.println("Content(as string) of the message: " + hndlr.payload().toString());
+                    System.out.println("QoS: " + hndlr.qosLevel());
 
-            });
+                    EventBus eventBus = vertx.eventBus();
+                    System.out.println("We now have a clustered event bus: " + eventBus);
 
-               vertx.setPeriodic(4000, id -> {
-                    this.mqttClient.publishHandler(hndlr -> {
-                        System.out.println("There are new message in topic: " + hndlr.topicName());
-                        System.out.println("Content(as string) of the message: " + hndlr.payload().toString());
-                        System.out.println("QoS: " + hndlr.qosLevel());
+                    eventBus.send(Util.ENDERECOBARRAMENTO, hndlr.topicName() + hndlr.payload().toString());
 
-                           EventBus eventBus = vertx.eventBus();
-                           System.out.println("We now have a clustered event bus: " + eventBus);
+                }).subscribe(Util.TOPICO, 1);
 
-                           eventBus.send("webmedia", hndlr.topicName() + hndlr.payload().toString());
-                    
-                    }).subscribe("dev/ufbaino01/RES", 1);
-                
-                });
-         
+          //  });
+
         } catch (Exception e) {
             System.out.println("controller.ReactiveController.start()" + e.getMessage());
         }
 
     }
-
 
     public void loadDevices() {
         JsonParser parser = new JsonParser();
@@ -132,10 +128,10 @@ public class ReactiveController extends AbstractVerticle {
                         sensor.setCollectionTime(jSensor.get("collection_time").getAsInt());
                         sensor.setPublishingTime(jSensor.get("publishing_time").getAsInt());
 
-                        System.out.println(sensor.getPublishingTime());
-
                         System.out.println(sensor.getCollectionTime());
-
+                        
+                         System.out.println(sensor.getPublishingTime());
+                        
                         listSensor.add(sensor);
                     }
                 }

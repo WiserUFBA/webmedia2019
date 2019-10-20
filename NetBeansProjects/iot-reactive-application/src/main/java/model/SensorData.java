@@ -30,8 +30,18 @@ public class SensorData {
         this.delay = delay;
     }
     
-    public SensorData(String value, LocalDateTime localDateTime, 
-            Sensor sensor, Device device){
+    
+//     public SensorData(String value, LocalDateTime localDateTime, 
+//            Sensor sensor, Device device, long delay){
+//        this.value = value;
+//        this.localDateTime = localDateTime;
+//        this.sensor = sensor;
+//        this.device = device;
+//        this.delay = delay;
+//    }
+    
+     //utilizado para o sensor físico
+    public SensorData( Device device,  Sensor sensor, String value, LocalDateTime localDateTime ,LocalDateTime localDateTime2){
         this.value = value;
         this.localDateTime = localDateTime;
         this.sensor = sensor;

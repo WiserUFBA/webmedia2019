@@ -41,6 +41,17 @@
      <version>3.8.0</version>
     </dependency>
     
+    
+    
+    
+ <dependency>
+ <groupId>org.infinispan</groupId>
+ <artifactId>infinispan-cloud</artifactId>
+ <version>9.4.10.Final</version>
+</dependency>
+    
+    
+    
     <!-- https://mvnrepository.com/artifact/org.json/json -->
 <dependency>
     <groupId>org.json</groupId>

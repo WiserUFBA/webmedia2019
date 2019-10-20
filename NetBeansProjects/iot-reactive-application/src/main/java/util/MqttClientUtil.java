@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
  * @author cleberlira
  */
 public class MqttClientUtil {
-   private static final String BROKER_HOST = "localhost";
-    private static final int BROKER_PORT = 1883;
-    private static MqttClient mqttClient;
+   public static final String BROKER_HOST = "192.168.0.101";
+   public static final int BROKER_PORT = 1883;
+   private static MqttClient mqttClient;
 
     public static MqttClient getMqttClientUtil() {
         if (mqttClient == null) {

@@ -26,7 +26,7 @@ public class Publisher extends AbstractVerticle {
         try {
             this.mqttOptions = new MqttClientOptions();
 
-            this.mqttOptions.setLocalAddress("localhost");
+            this.mqttOptions.setLocalAddress("192.168.0.12");
 
             this.mqttClient = MqttClient.create(vertx);
 
@@ -47,9 +47,9 @@ public class Publisher extends AbstractVerticle {
 //                for (Sensor sensor : sensors) {
 //                    String flowRequest;
 //                    if (sensor.getCollectionTime() <= 0) {
-//                        flowRequest = TATUWrapper.getTATUFlowValue(sensor.getId(), defaultCollectionTime, defaultPublishingTime);
+//                        flowRequest = TATUWrapperOld.getTATUFlowValue(sensor.getId(), defaultCollectionTime, defaultPublishingTime);
 //                    } else {
-//                        flowRequest = TATUWrapper.getTATUFlowValue(sensor.getId(), sensor.getCollection_time(), sensor.getPublishing_time());
+//                        flowRequest = TATUWrapperOld.getTATUFlowValue(sensor.getId(), sensor.getCollection_time(), sensor.getPublishing_time());
 //                    }
 //                    System.out.println("[topic: " + device.getDeviceId() + "] " + flowRequest);
 //                  //  sensor.publishTATUMessage(flowRequest, device.getDeviceId());
