@@ -24,19 +24,19 @@ public class Provider extends AbstractVerticle {
     public void start() {
         Router router = Router.router(vertx);
         router.get("/").handler(this::webmedia);
-        router.get("/:name").handler(this::webmedia);
+        router.get("/:nome").handler(this::webmedia);
         vertx.createHttpServer()
             .requestHandler(router::accept)
             .listen(8080);
     }
 
     private void webmedia(RoutingContext rc) {
-        String message = "hello";
-        if (rc.pathParam("name") != null) {
-            message += " " + rc.pathParam("name");
+        String message = "webmedia 2019";
+        if (rc.pathParam("nome") != null) {
+            message += " " + rc.pathParam("nome");
         }
         JsonObject json = new JsonObject()
-            .put("mensagem", message)
+            .put("mensagem: ", message)
             .put("Fornecido por: ", System.getenv("HOSTNAME"));
         rc.response()
             .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
